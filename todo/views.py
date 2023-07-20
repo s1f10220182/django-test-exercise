@@ -46,6 +46,7 @@ def update(request, task_id):
     if request.method == 'POST':
         task.title = request.POST['title']
         task.due_at = make_aware(parse_datetime(request.POST['due_at']))
+        task.detail = request.POST['task_detail']
         task.save()
         return redirect(detail, task_id)
 
