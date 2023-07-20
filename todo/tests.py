@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from django.urls import reverse
 from django.utils import timezone
 from datetime import datetime
 from todo.models import Task
@@ -112,3 +113,15 @@ class TodoViewTestCase(TestCase):
         response = client.get('/1/')
 
         self.assertEqual(response.status_code, 404)
+
+    def test_delete_task(self):
+        task = Task(title='task1', due_at=timezone.make_aware(datetime(2023, 7, 1)))
+        task.save()
+        self.assertEqual(Task.objects.count(), 1)
+
+        client = Client()
+        response = client.get('/{}/delete'.format(task.pk))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('index'))
+        self.assertEqual(Task.objects.count(), 0)
