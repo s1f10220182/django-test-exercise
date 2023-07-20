@@ -125,3 +125,20 @@ class TodoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('index'))
         self.assertEqual(Task.objects.count(), 0)
+
+    def test_update_task(self):
+        task = Task(title='task1', due_at=timezone.make_aware(datetime(2023, 7, 1)))
+        task.save()
+
+        client = Client()
+        response = client.post(reverse('update', args=[task.pk]), data={
+            'title': 'Updated Task',
+            'due_at': '2023-08-01 00:00:00',
+        })
+        self.assertEqual(response.status_code, 302)
+
+        updated_task = Task.objects.get(pk=task.pk)
+        self.assertEqual(updated_task.title, 'Updated Task')
+
+        due_at_updated = timezone.make_aware(datetime(2023, 8, 1))
+        self.assertEqual(updated_task.due_at, due_at_updated)
