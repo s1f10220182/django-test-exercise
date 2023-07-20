@@ -24,7 +24,14 @@
         <input id="titleInput" name="title" type="text" placeholder="Input title">
       </div><br>
       <div>
+
+        <label for="detailInput">Detail</label><br>
+        <textarea id="detailInput" name="task_detail" type="text" placeholder="Input detail" value="{{ task.detail }}"></textarea>
+      </div>
+      <div>
+
         <label for="dueInput" class="text">Due at:</label>
+
         <input id="dueInput" name="due_at" type="datetime-local">
       </div><br>
       <div>
