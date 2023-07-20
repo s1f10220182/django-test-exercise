@@ -65,7 +65,7 @@ class TodoViewTestCase(TestCase):
 
     def test_index_post(self):
         client = Client()
-        data = {'title': 'Test Task', 'due_at': '2023-6-30 23:59:59'}
+        data = {'title': 'Test Task', 'task_detail': 'Test detail', 'due_at': '2023-6-30 23:59:59'} << ここに'task_detail'を追加
         response = client.post('/', data)
 
         self.assertEqual(response.status_code, 200)
